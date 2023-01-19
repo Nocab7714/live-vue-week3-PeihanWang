@@ -37,14 +37,12 @@ const app = createApp({
         .get(url)
         .then((res) => {
           this.products = res.data.products;
-          // console.log(this.products); //測試
         })
         .catch((err) => {
           alert(err.data.message);
         });
     },
     openModal(status, product) {
-      // console.log(status);
       if (status === 'create') {
         productModal.show();
         this.isNew = true;
@@ -64,7 +62,6 @@ const app = createApp({
     },
     updateProducts() {
       //更新與新增產品
-      // console.log('updateProducts');
       let url = `${site}api/${api_path}/admin/product`;
       // 用 isNew 判斷 API 如何運行
       let method = 'post';
@@ -72,18 +69,27 @@ const app = createApp({
         url = `${site}api/${api_path}/admin/product/${this.tempProduct.id}`;
         method = 'put';
       }
-      axios[method](url, { data: this.tempProduct }).then((res) => {
-        console.log(res);
-        this.getProducts(); // 新增完產品以後會重新取得
-        productModal.hide(); // 關閉 modal
-      });
+      axios[method](url, { data: this.tempProduct })
+        .then((res) => {
+          this.getProducts(); // 新增完產品以後會重新取得
+          productModal.hide(); // 關閉 modal
+        })
+        .catch((err) => {
+          // 新增產品失敗跳出錯誤訊息提示框
+          alert(err.data.message);
+        });
     },
     deleteProduct() {
       const url = `${site}api/${api_path}/admin/product/${this.tempProduct.id}`;
-      axios.delete(url).then(() => {
-        this.getProducts();
-        delProductModal.hide();
-      });
+      axios
+        .delete(url)
+        .then(() => {
+          this.getProducts();
+          delProductModal.hide();
+        })
+        .catch((err) => {
+          alert(err.data.message);
+        });
     },
   },
   computed: {},

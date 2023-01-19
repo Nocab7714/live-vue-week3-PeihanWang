@@ -77,7 +77,8 @@
           <div class="modal-content border-0">
             <div class="modal-header bg-dark text-white">
               <h5 id="productModalLabel" class="modal-title">
-                <span>新增產品</span>
+                <span v-if="isNew === true">新增產品</span>
+                <span v-else>編輯產品</span>
               </h5>
               <button
                 type="button"
@@ -106,7 +107,7 @@
                   <div>
                     <h4>多圖設置</h4>
                     <!-- 判斷 tempProduct.imagesUrl 是一個陣列 -->
-                    <div v-if="Array.isArray(tempProduct.imagesUrl)">
+                    <template v-if="Array.isArray(tempProduct.imagesUrl)">
                       <template
                         v-for="(img, key) in tempProduct.imagesUrl"
                         :key="key + 7788"
@@ -141,7 +142,7 @@
                       >
                         刪除圖片
                       </button>
-                    </div>
+                    </template>
                   </div>
                 </div>
                 <div class="col-sm-8">
